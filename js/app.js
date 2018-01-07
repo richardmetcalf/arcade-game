@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function () {
+var Enemy = function (level = 1) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -8,11 +8,11 @@ var Enemy = function () {
     this.sprite = 'images/enemy-bug.png';
 
     // Enemies start on a random stone row, a random distance across the screen.
-    this.x = -1 + 6 * Math.random();
+    this.x = -1 + 7 * Math.random();
     this.y = 1 + Math.floor(3 * Math.random());
 
     // Speed. Faster on harder levels!
-    this.speed = 1;
+    this.speed = 1 + (level - 1) / 5;
 };
 
 // Update the enemy's position, required method for game
@@ -37,6 +37,10 @@ Enemy.prototype.render = function () {
 // a handleInput() method.
 var Player = function () {
     this.sprite = 'images/char-cat-girl.png';
+    this.moveToStart();
+};
+
+Player.prototype.moveToStart = function () {
     this.x = 2;
     this.y = 5;
 };
@@ -65,12 +69,25 @@ Player.prototype.handleInput = function (direction) {
     }
 };
 
+Player.prototype.isWin = function () {
+    return this.y === 0;
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-let allEnemies = [new Enemy(), new Enemy(), new Enemy()];
+let allEnemies = [];
 let player = new Player();
+let level = 1;
 
+function reset(advanceLevel) {
+    level = advanceLevel ? level + 1 : 1;
+    player.moveToStart();
+    allEnemies = [];
+    for (let i = 0; i < level; i++) {
+        allEnemies.push(new Enemy(level));
+    }
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -83,4 +100,7 @@ document.addEventListener('keyup', function (e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+    if (player.isWin()) {
+        reset(true);
+    }
 });
