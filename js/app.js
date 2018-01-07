@@ -82,6 +82,7 @@ let level = 1;
 
 function reset(advanceLevel) {
     level = advanceLevel ? level + 1 : 1;
+    document.querySelector('.level').textContent = level;
     player.moveToStart();
     allEnemies = [];
     for (let i = 0; i < level; i++) {
@@ -101,6 +102,8 @@ document.addEventListener('keyup', function (e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
     if (player.isWin()) {
-        reset(true);
+        reset(advancdLevel = true);
     }
 });
+
+reset();
