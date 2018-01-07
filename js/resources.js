@@ -1,7 +1,7 @@
 /* Resources.js
  * This is simply an image loading utility. It eases the process of loading
- * image files so that they can be used within your game. It also includes
- * a simple "caching" layer so it will reuse cached images if you attempt
+ * image files so that they can be used within the game. It also includes
+ * a simple "caching" layer so it will reuse cached images if we attempt
  * to load the same image multiple times.
  */
 (function() {
@@ -15,25 +15,14 @@
      */
     function load(urlOrArr) {
         if(urlOrArr instanceof Array) {
-            /* If the developer passed in an array of images
-             * loop through each value and call our image
-             * loader on that image file
-             */
             urlOrArr.forEach(function(url) {
                 _load(url);
             });
         } else {
-            /* The developer did not pass an array to this function,
-             * assume the value is a string and call our image loader
-             * directly.
-             */
             _load(urlOrArr);
         }
     }
 
-    /* This is our private image loader function, it is
-     * called by the public image loader function.
-     */
     function _load(url) {
         if(resourceCache[url]) {
             /* If this URL has been previously loaded it will exist within
@@ -70,10 +59,6 @@
         }
     }
 
-    /* This is used by developers to grab references to images they know
-     * have been previously loaded. If an image is cached, this functions
-     * the same as calling load() on that URL.
-     */
     function get(url) {
         return resourceCache[url];
     }
