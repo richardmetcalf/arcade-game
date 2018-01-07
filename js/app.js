@@ -25,6 +25,13 @@ Enemy.prototype.update = function (dt) {
     if (this.x >= 5) {
         this.x = -1;
     }
+    if (this.collidesWithPlayer()) {
+        reset();
+    }
+};
+
+Enemy.prototype.collidesWithPlayer = function () {
+    return player.y === this.y && this.x - player.x < 0.8 && player.x - this.x < 0.8;
 };
 
 // Draw the enemy on the screen, required method for game
