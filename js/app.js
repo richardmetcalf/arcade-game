@@ -7,7 +7,12 @@ var Enemy = function () {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
+    // Enemies start on a random stone row, a random distance across the screen.
+    this.x = -1 + 6 * Math.random();
+    this.y = 1 + Math.floor(3 * Math.random());
 
+    // Speed. Faster on harder levels!
+    this.speed = 1;
 };
 
 // Update the enemy's position, required method for game
@@ -16,11 +21,15 @@ Enemy.prototype.update = function (dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += dt * this.speed;
+    if (this.x >= 5) {
+        this.x = -1;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83 - 25);
 };
 
 // Now write your own player class
@@ -36,7 +45,7 @@ Player.prototype.update = function (dt) {
 };
 
 Player.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
+    ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83 - 25);
 };
 
 Player.prototype.handleInput = function (direction) {
@@ -59,7 +68,7 @@ Player.prototype.handleInput = function (direction) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-let allEnemies = [];
+let allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 let player = new Player();
 
 
